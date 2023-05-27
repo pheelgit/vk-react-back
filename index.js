@@ -57,6 +57,13 @@ app.post('/upload', checkAuth, upload.single('image'), (req, res) => {
   })
 })
 
+app.get('/', async (req, res) => {
+  return res.status(200).json({
+    title: 'Express Testing',
+    message: 'The app is working properly!',
+  })
+})
+
 app.listen(4444, err => {
   if (err) {
     return console.log(err)
