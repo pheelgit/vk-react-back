@@ -3,14 +3,8 @@ import mongoose from 'mongoose'
 import cors from 'cors'
 import multer from 'multer'
 
-import {
-  registerValidation,
-  loginValidation,
-  postCreateValidation,
-} from './validations.js'
-
-import { UserController, PostController } from './controllers/index.js'
-import { handleValidationErrors, checkAuth } from './utils/index.js'
+import { UserController } from './controllers/index.js'
+import { checkAuth } from './utils/index.js'
 
 import postRoutes from './routes/postRoutes.js'
 import authRoutes from './routes/authRoutes.js'
@@ -30,18 +24,18 @@ mongoose
 const app = express()
 app.use(express.json())
 app.use(cors())
-app.use('/uploads', express.static('uploads'))
+// app.use('/uploads', express.static('uploads'))
 
-const storage = multer.diskStorage({
-  destination: (_, _1, cb) => {
-    cb(null, 'uploads')
-  },
-  filename: (_, file, cb) => {
-    cb(null, file.originalname)
-  },
-})
+// const storage = multer.diskStorage({
+//   destination: (_, _1, cb) => {
+//     cb(null, 'uploads')
+//   },
+//   filename: (_, file, cb) => {
+//     cb(null, file.originalname)
+//   },
+// })
 
-const upload = multer({ storage })
+// const upload = multer({ storage })
 
 app.use('/api/auth/', authRoutes)
 app.use('/api/post', postRoutes)
@@ -50,18 +44,15 @@ app.use('/api/friend', friendRoutes)
 //getUser
 app.get('/:id', checkAuth, UserController.getUser)
 
-app.post('/upload', checkAuth, upload.single('image'), (req, res) => {
-  res.status(200).json({
-    message: 'изображение загруженно',
-    url: `/uploads/${req.file?.originalname}`,
-  })
-})
+// app.post('/upload', checkAuth, upload.single('image'), (req, res) => {
+//   res.status(200).json({
+//     message: 'изображение загруженно',
+//     url: `/uploads/${req.file?.originalname}`,
+//   })
+// })
 
 app.get('/', async (req, res) => {
-  return res.status(200).json({
-    title: 'Express Testing',
-    message: 'The app is working properly!',
-  })
+  return res.status(200).send('Все работает!!!!')
 })
 
 app.listen(4444, err => {
