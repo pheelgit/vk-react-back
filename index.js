@@ -14,11 +14,11 @@ import friendRoutes from './routes/friendRoutes.js'
 const user = process.env.DB_USER || 'pheel'
 const password = process.env.DB_PASSWORD || '16288277101alj'
 
-const { DB_USER, DB_PASSWORD } = dotenv.config().parsed
+// const { DB_USER = '', DB_PASSWORD = '' } = dotenv.config().parsed
 
 mongoose
   .connect(
-    `mongodb+srv://${DB_USER}:${DB_PASSWORD}@vk-react.ydb4hpp.mongodb.net/miniVK?retryWrites=true&w=majority`
+    `mongodb+srv://pheel:16288277101alj@vk-react.ydb4hpp.mongodb.net/miniVK?retryWrites=true&w=majority`
   )
   .then(() => {
     console.log('db Ok')
@@ -58,7 +58,7 @@ app.get('/:id', checkAuth, UserController.getUser)
 // })
 
 app.get('/', async (req, res) => {
-  return res.status(200).send(`все работает ${DB_PASSWORD} \ ${DB_USER}`)
+  return res.status(200).send(`все работает!!`)
 })
 
 app.listen(4444, err => {
