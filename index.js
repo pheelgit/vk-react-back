@@ -2,6 +2,7 @@ import express from 'express'
 import mongoose from 'mongoose'
 import cors from 'cors'
 import multer from 'multer'
+import dotenv from 'dotenv'
 
 import { UserController } from './controllers/index.js'
 import { checkAuth } from './utils/index.js'
@@ -10,9 +11,14 @@ import postRoutes from './routes/postRoutes.js'
 import authRoutes from './routes/authRoutes.js'
 import friendRoutes from './routes/friendRoutes.js'
 
+const user = process.env.DB_USER || 'pheel'
+const password = process.env.DB_PASSWORD || '16288277101alj'
+
+const { DB_USER, DB_PASSWORD } = dotenv.config().parsed
+
 mongoose
   .connect(
-    'mongodb+srv://pheel:16288277101alj@vk-react.ydb4hpp.mongodb.net/miniVK?retryWrites=true&w=majority'
+    `mongodb+srv://${DB_USER}:${DB_PASSWORD}@vk-react.ydb4hpp.mongodb.net/miniVK?retryWrites=true&w=majority`
   )
   .then(() => {
     console.log('db Ok')
@@ -52,7 +58,7 @@ app.get('/:id', checkAuth, UserController.getUser)
 // })
 
 app.get('/', async (req, res) => {
-  return res.status(200).send('Все работает!!!!')
+  return res.status(200).send(`все работает ${DB_PASSWORD} \ ${DB_USER}`)
 })
 
 app.listen(4444, err => {
